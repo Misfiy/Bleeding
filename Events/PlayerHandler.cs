@@ -10,15 +10,24 @@ namespace BleedingPlugin.Events
         Config config = Bleeding.Instance.Config;
         public void OnHurting(HurtingEventArgs ev)
         {
-            string attackerName = ev.Attacker != null ? ev.Attacker.ToString() : "No attacker";
-            Log.Debug($"{ev.Player.Nickname} was hurt: {ev.DamageHandler.Type.ToString()}. Attacker: {attackerName}");
+            string attacker = ev.Attacker != null ? ev.Attacker.Role.Type.ToString() : "No attacker";
+            Log.Debug($"{ev.Player.Nickname} was hurt: {ev.DamageHandler.Type.ToString()}. Attacker: {attacker}");
             if (!config.CanScpsBleed && ev.Attacker != null && ev.Attacker.IsScp) return;
-            if (config.DamageTypes.Contains(ev.DamageHandler.Type)) ev.Player.EnableEffect(EffectType.Bleeding);
-            if (ev.Attacker != null && config.RoleTypes.Contains(ev.Attacker.Role.Type)) ev.Player.EnableEffect(EffectType.Bleeding);
+            if (config.DamageTypes.Contains(ev.DamageHandler.Type) || ev.Attacker != null && config.RoleTypes.Contains(ev.Attacker.Role.Type)) DoBleed(ev.Player);
         }
         public void OnUsedItem(UsedItemEventArgs ev)
         {
-            if (config.CureItems.Contains(ev.Item.Type)) ev.Player.DisableEffect(EffectType.Bleeding);
+            if (config.CureItems.Contains(ev.Item.Type))
+            {
+                ev.Player.DisableEffect(EffectType.Bleeding);
+            }
+        }
+        private void DoBleed(Player player)
+        {
+          player.EnableEffect(EffectType.Bleeding);
+          if(config.BroadcastMessage.Length == 0) return;
+          if(config.UseHintsInstead) player.ShowHint(config.BroadcastMessage, config.BroadcastTime);
+          else player.Broadcast(config.BroadcastTime, config.BroadcastMessage);
         }
     }
 }
