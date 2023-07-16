@@ -7,7 +7,7 @@ namespace BleedingPlugin
      public sealed class Config : IConfig
      {
           public bool IsEnabled { get; set; } = true;
-          public bool Debug { get; set; } = true;
+          public bool Debug { get; set; } = false;
           public bool CanScpsBleed { get; set; } = false;
           public HashSet<DamageType> DamageTypes { get; set;} = new HashSet<DamageType>
           {
