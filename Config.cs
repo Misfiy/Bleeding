@@ -22,7 +22,8 @@ namespace BleedingPlugin
                DamageType.Logicer,
                DamageType.Revolver,
                DamageType.Shotgun,
-               DamageType.Falldown
+               DamageType.Falldown,
+               DamageType.Scp939
           };
           public HashSet<RoleTypeId> RoleTypes { get; set; } = new HashSet<RoleTypeId>
           {
