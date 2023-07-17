@@ -12,7 +12,7 @@ namespace BleedingPlugin.Events
         {
             string attacker = ev.Attacker != null ? ev.Attacker.Role.Type.ToString() : "No attacker";
             Log.Debug($"{ev.Player.Nickname} was hurt: {ev.DamageHandler.Type.ToString()}. Attacker: {attacker}");
-            if (!config.CanScpsBleed && ev.Attacker != null && ev.Attacker.IsScp) return;
+            if (!config.CanScpsBleed && ev.Player.IsScp) return;
             if (config.DamageTypes.Contains(ev.DamageHandler.Type) || ev.Attacker != null && config.RoleTypes.Contains(ev.Attacker.Role.Type)) DoBleed(ev.Player);
         }
         public void OnUsedItem(UsedItemEventArgs ev)
