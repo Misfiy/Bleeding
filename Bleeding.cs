@@ -26,7 +26,7 @@
           public override void OnDisabled()
           {
                UnregisterEvents();
-               Instance = null;
+               Instance = null!;
                base.OnDisabled();
           }
           public void RegisterEvents()
@@ -42,9 +42,7 @@
                Player.Hurting -= playerHandler.OnHurting;
                Player.UsedItem -= playerHandler.OnUsedItem;
 
-               playerHandler = null;
+               playerHandler = null!;
           }
      }
 }
-
-// player.TryAddCandy(InventorySystem.Items.Usables.Scp330.CandyKindID.Pink);
